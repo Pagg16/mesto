@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <link href="pages/index.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mesto</title>
+</head>
+
+<body class="page">
+
+    <header class="header">
+
+        <img alt="логотип" class="header__logo" src="./images/Vector.svg">
+
+    </header>
+
+    <main class="page">
+
+        <section class="profile">
+
+            <img alt="аватарка" class="profile__avatar" src="./images/profile-image.png">
+
+            <div class="profile-info">
+
+                <div class="profile-info__title-button">
+                    <h1 class="profile-info__title">Жак-Ив Кусто</h1><button type="button" class="edit-button"></button>
+                </div>
+
+                <p class="profile-info__subtitle">Исследователь океана</p>
+
+            </div>
+
+            <button type="button" class="add-button"></button>
+
+        </section>
+
+        <section class="elements">
+
+            <article class="element">
+
+                <img alt="карачевск" class="element__image" src="./images/grid-image1.png">
+
+                <div class="rectangle">
+
+                    <h2 class="rectangle__text">Карачаевск</h2>
+
+                    <div class="rectangle__group"></div>
+
+                </div>
+
+
+            </article>
+
+            <article class="element">
+
+                <img alt="гора эльбрус" class="element__image" src="./images/grid-image2.png">
+
+                <div class="rectangle">
+
+                    <h2 class="rectangle__text">Гора Эльбрус</h2>
+
+                    <div class="rectangle__group"></div>
+
+                </div>
+
+
+            </article>
+
+            <article class="element">
+
+                <img alt="домбай" class="element__image" src="./images/grid-image3.png">
+
+                <div class="rectangle">
+
+                    <h2 class="rectangle__text">Домбай</h2>
+
+                    <div class="rectangle__group"></div>
+
+                </div>
+
+
+            </article>
+
+            <article class="element">
+
+                <img alt="гора эльбрус" class="element__image" src="./images/grid-image2.png">
+
+                <div class="rectangle">
+
+                    <h2 class="rectangle__text">Гора Эльбрус</h2>
+
+                    <div class="rectangle__group"></div>
+
+                </div>
+
+
+            </article>
+
+            <article class="element">
+
+                <img alt="домбай" class="element__image" src="./images/grid-image3.png">
+
+                <div class="rectangle">
+
+                    <h2 class="rectangle__text">Домбай</h2>
+
+                    <div class="rectangle__group"></div>
+
+                </div>
+
+
+            </article>
+
+            <article class="element">
+
+                <img alt="гора эльбрус" class="element__image" src="./images/grid-image1.png">
+
+                <div class="rectangle">
+
+                    <h2 class="rectangle__text">Карачаево-Черкесия</h2>
+
+                    <div class="rectangle__group"></div>
+
+                </div>
+
+            </article>
+
+        </section>
+
+    </main>
+
+    <footer class="footer">
+
+        &copy; 2021 Mesto Russia
+
+    </footer>
+
+    <div class="popup">
+
+        <div class="popup__container">
+
+            <p class="popup__text">Редактировать профиль</p>
+
+            <form class="popup__form" name="form"> 
+
+                <input type="text" name="name" placeholder="Имя" class="popup__filed">
+
+                <input type="text" name="job" placeholder="Работа" class="popup__filed">
+
+                <button type="submit" class="popup__submit-button">Сохранить</button>
+
+            </form>
+
+            <button type="button" class="popup__button-close"></button>
+
+        </div>
+
+    </div>
+
+    <script src="scripts/index.js"></script>
+
+</body>
+
+</html>

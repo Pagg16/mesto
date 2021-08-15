@@ -1,0 +1,19 @@
+.rectangle__group {
+  width: 22px;
+  height: 19px;
+  background: url(../../../images/rectangle-image.svg) center center / 22px 19px
+    no-repeat;
+  margin: 0 20px 0 auto;
+}
+
+.rectangle__group:hover {
+  transition: .5s;
+  background: url(../../../images/hover-heart.svg) center center / 22px 19px
+    no-repeat;
+}
+
+.rectangle__group:active {
+    transition: .5s;
+    background: url(../../../images/active-heart.svg) center center / 22px 19px
+    no-repeat;
+}
