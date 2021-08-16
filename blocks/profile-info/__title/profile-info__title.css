@@ -7,7 +7,6 @@
   line-height: 48px;
   color: #ffffff;
   margin: 0;
-  letter-spacing: 0.5px;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -17,6 +16,5 @@
   .profile-info__title {
     font-size: 27px;
     line-height: 33px;
-    letter-spacing: 0.1px;
   }
 }
