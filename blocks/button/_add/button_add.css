@@ -1,21 +1,21 @@
-.add-button {
+.button_add {
   width: 150px;
   height: 50px;
   border: 2px solid #ffffff;
   box-sizing: border-box;
   border-radius: 2px;
-  background: url(../../images/cross.png) center center / 22px 22px no-repeat;
+  background: url(../../../images/cross.svg) center center / 22px 22px no-repeat;
   margin-left: auto;
   padding: 0;
 }
 
-.add-button:hover {
-  transition: .3s;
-  opacity: .6;
+.button_add:hover {
+  transition: 0.3s;
+  opacity: 0.6;
 }
 
 @media screen and (max-width: 767px) {
-  .add-button {
+  .button_add {
     margin: 0;
     width: 282px;
     height: 50px;

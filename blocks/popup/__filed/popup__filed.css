@@ -4,6 +4,12 @@
   min-height: 27px;
   border: 0px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000000;
 }
 
 .popup__filed:nth-child(1) {

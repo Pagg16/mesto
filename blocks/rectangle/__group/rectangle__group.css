@@ -4,16 +4,18 @@
   background: url(../../../images/rectangle-image.svg) center center / 22px 19px
     no-repeat;
   margin: 0 20px 0 auto;
+  padding: 0;
+  border: none;
 }
 
 .rectangle__group:hover {
-  transition: .5s;
-  background: url(../../../images/hover-heart.svg) center center / 22px 19px
-    no-repeat;
+  transition: 0.5s;
+  opacity: 0.5;
 }
 
 .rectangle__group:active {
-    transition: .5s;
-    background: url(../../../images/active-heart.svg) center center / 22px 19px
+  transition: 0.5s;
+  background: url(../../../images/active-heart.svg) center center / 22px 19px
     no-repeat;
+    opacity: 1;
 }
