@@ -8,6 +8,7 @@
   border: 0;
   background: url(../../../images/Close-Icon.svg) center center / 32px 32px
     no-repeat;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 768px) {

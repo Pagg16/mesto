@@ -1,4 +1,4 @@
-.rectangle__group {
+.rectangle__button-like {
   width: 22px;
   height: 19px;
   background: url(../../../images/rectangle-image.svg) center center / 22px 19px
@@ -6,16 +6,17 @@
   margin: 0 20px 0 auto;
   padding: 0;
   border: none;
+  cursor: pointer;
 }
 
-.rectangle__group:hover {
+.rectangle__button-like:hover {
   transition: 0.5s;
   opacity: 0.5;
 }
 
-.rectangle__group:active {
+.rectangle__button-like:active {
   transition: 0.5s;
   background: url(../../../images/active-heart.svg) center center / 22px 19px
     no-repeat;
-    opacity: 1;
+  opacity: 1;
 }
