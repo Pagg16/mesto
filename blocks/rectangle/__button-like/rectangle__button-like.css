@@ -14,9 +14,3 @@
   opacity: 0.5;
 }
 
-.rectangle__button-like:active {
-  transition: 0.5s;
-  background: url(../../../images/active-heart.svg) center center / 22px 19px
-    no-repeat;
-  opacity: 1;
-}

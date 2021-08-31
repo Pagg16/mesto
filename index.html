@@ -26,8 +26,8 @@
             <div class="profile-info">
 
                 <div class="profile-info__title-button">
-                    <h1 class="profile-info__title">Жак-Ив Кусто</h1><button aria-label="edit" type="button"
-                        class="button button_type_edit"></button>
+                    <h1 class="profile-info__title">Жак-Ив Кусто</h1>
+                    <button aria-label="edit" type="button" class="button button_type_edit"></button>
                 </div>
 
                 <p class="profile-info__subtitle">Исследователь океана</p>
@@ -38,98 +38,7 @@
 
         </section>
 
-        <section class="elements">
-
-            <article class="element">
-
-                <img alt="карачевск" class="element__image" src="./images/grid-image1.png">
-
-                <div class="rectangle">
-
-                    <h2 class="rectangle__text">Карачаевск</h2>
-
-                    <button type="button" class="rectangle__button-like"></button>
-
-                </div>
-
-
-            </article>
-
-            <article class="element">
-
-                <img alt="гора эльбрус" class="element__image" src="./images/grid-image2.png">
-
-                <div class="rectangle">
-
-                    <h2 class="rectangle__text">Гора Эльбрус</h2>
-
-                    <button type="button" class="rectangle__button-like"></button>
-
-                </div>
-
-
-            </article>
-
-            <article class="element">
-
-                <img alt="домбай" class="element__image" src="./images/grid-image3.png">
-
-                <div class="rectangle">
-
-                    <h2 class="rectangle__text">Домбай</h2>
-
-                    <button type="button" class="rectangle__button-like"></button>
-
-                </div>
-
-
-            </article>
-
-            <article class="element">
-
-                <img alt="гора эльбрус" class="element__image" src="./images/grid-image2.png">
-
-                <div class="rectangle">
-
-                    <h2 class="rectangle__text">Гора Эльбрус</h2>
-
-                    <button type="button" class="rectangle__button-like"></button>
-
-                </div>
-
-
-            </article>
-
-            <article class="element">
-
-                <img alt="домбай" class="element__image" src="./images/grid-image3.png">
-
-                <div class="rectangle">
-
-                    <h2 class="rectangle__text">Домбай</h2>
-
-                    <button type="button" class="rectangle__button-like"></button>
-
-                </div>
-
-
-            </article>
-
-            <article class="element">
-
-                <img alt="гора эльбрус" class="element__image" src="./images/grid-image1.png">
-
-                <div class="rectangle">
-
-                    <h2 class="rectangle__text">Карачаево-Черкесия</h2>
-
-                    <button type="button" class="rectangle__button-like"></button>
-
-                </div>
-
-            </article>
-
-        </section>
+        <section class="elements"></section>
 
     </main>
 
@@ -160,6 +69,63 @@
         </div>
 
     </div>
+
+    <div class="popup">
+
+        <div class="popup__container">
+
+            <h2 class="popup__text">Новое место</h2>
+
+            <form class="popup__form" name="userdata">
+
+                <input type="text" name="title" placeholder="Название" class="popup__filed">
+
+                <input type="text" name="link" placeholder="Ссылка на картинку" class="popup__filed">
+
+                <button type="submit" class="popup__submit-button popup__submit-button-post">Создать</button>
+
+            </form>
+
+            <button aria-label="Close" type="button" class="popup__button-close"></button>
+
+        </div>
+
+    </div>
+
+    <div class="popup">
+
+        <div class="popup__image-container">
+
+            <img alt="#" class="popup__image_open" src="#">
+
+            <h2 class="popup__image-text"></h2>
+
+            <button aria-label="Close" type="button" class="popup__button-close popup__button-close_image"></button>
+
+        </div>
+
+    </div>
+
+    <template id="post-element">
+
+        <article class="element">
+
+            <button aria-label="open" type="button" class="element__button-image-open"><img alt="#"
+                    class="element__image" src="#"></button>
+
+            <button type="button" class="element__button-delete-post"></button>
+
+            <div class="rectangle">
+
+                <h2 class="rectangle__text"></h2>
+
+                <button type="button" class="rectangle__button-like"></button>
+
+            </div>
+
+        </article>
+
+    </template>
 
     <script src="scripts/index.js"></script>
 
