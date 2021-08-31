@@ -64,7 +64,7 @@ const addPost = (post) => {
 
 function openImage(event) {
   popup[2].classList.add("popup_opened");
-  popup[2].querySelector(".popup__image_open").src = event.target.src;
+  popup[2].querySelector(".popup__image-open").src = event.target.src;
   popup[2].querySelector(".popup__image-text").textContent = event.target.alt;
 }
 
