@@ -45,3 +45,8 @@
 @import url(../blocks/popup/__image/popup__image-open.css);
 @import url(../blocks/popup/__image-text/popup__image-text.css);
 @import url(../blocks/popup/__image-container/popup__image-container.css);
+@import url(../blocks/popup-profile/popup-profile.css);
+@import url(../blocks/popup-posts/popup-posts.css);
+@import url(../blocks/popup-images/popup-images.css);
+@import url(../blocks/form-profile/form-profile.css);
+@import url(../blocks/form-cards/form-cards.css);

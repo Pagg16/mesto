@@ -26,47 +26,27 @@ const initialCards = [
   },
 ];
 
-let closePopupButton = document.querySelectorAll(".popup__button-close"); // кнопка закрытия попапа для ввода имени и работы
-let popup = document.querySelectorAll(".popup"); // попап к которому мы добовляем класс открытия
-let openPopupButton = document.querySelector(".button_type_edit"); // кнопка отправки данных об имени и работе
+const closePopupButton = document.querySelectorAll(".popup__button-close"); // кнопка закрытия попапа
+const popupProfile = document.querySelector(".popup-profile"); // попап редактирования профиля
+const popupPosts = document.querySelector(".popup-posts"); // попап добавления поста
+const popupImages = document.querySelector(".popup-images"); // попап открытия картинки
 
-let openPopupButtonPost = document.querySelector(".button_type_add"); // кнопка открытия окна для публикации поста
+const openPopupButton = document.querySelector(".button_type_edit"); // кнопка отправки данных об имени и работе
+const openPopupButtonPost = document.querySelector(".button_type_add"); // кнопка открытия окна для публикации поста
 
-let formElement = document.querySelectorAll(".popup__form");
-let nameInput = document.querySelector('input[name="name"]');
-let jobInput = document.querySelector('input[name="job"]');
-let profileInfoTitle = document.querySelector(".profile-info__title");
-let profileInfoSubtitle = document.querySelector(".profile-info__subtitle");
+const formElementCards = document.querySelector(".form-cards"); //форма карточки
+const formElementProfile = document.querySelector(".form-profile"); //форма профиля
+
+const nameInput = document.querySelector('input[name="name"]');
+const jobInput = document.querySelector('input[name="job"]');
+const profileInfoTitle = document.querySelector(".profile-info__title");
+const profileInfoSubtitle = document.querySelector(".profile-info__subtitle");
 
 const postTemplate = document.querySelector("#post-element").content;
 const postsElement = document.querySelector(".elements"); //контейнер для постов
 
-let titleInput = document.querySelector('input[name="title"]'); //поле текста карточки
-let linknput = document.querySelector('input[name="link"]'); //поле ссылки на картинку
-
-const addPost = (post) => {
-  //собираем карточку с картинкой
-  const postElement = postTemplate.querySelector(".element").cloneNode(true);
-  postElement.querySelector(".element__image").src = post.link;
-  postElement.querySelector(".element__image").alt = post.name;
-  postElement.querySelector(".rectangle__text").textContent = post.name;
-  postElement
-    .querySelector(".element__button-delete-post")
-    .addEventListener("click", removePostHandler);
-  postElement
-    .querySelector(".rectangle__button-like")
-    .addEventListener("click", likePost);
-  postsElement.prepend(postElement);
-  postElement
-    .querySelector(".element__button-image-open")
-    .addEventListener("click", openImage);
-};
-
-function openImage(event) {
-  popup[2].classList.add("popup_opened");
-  popup[2].querySelector(".popup__image-open").src = event.target.src;
-  popup[2].querySelector(".popup__image-text").textContent = event.target.alt;
-}
+const titleInput = document.querySelector('input[name="title"]'); //поле текста карточки
+const linknput = document.querySelector('input[name="link"]'); //поле ссылки на картинку
 
 function likePost(event) {
   event.target.classList.toggle("rectangle__button-like_active"); //окрашиваем сердечко в черный цвет при помощи дополнительного класса
@@ -76,45 +56,69 @@ const removePostHandler = (event) => {
   event.target.closest(".element").remove(); //удаляем карточку при нажатии на иконку
 };
 
-initialCards.forEach((post) => {
-  //перебираем все элементы пассива отправляя по очереди их в переменную post
-  addPost(post);
+function createCard(data) {
+  //собираем карточку с картинкой
+  const postElement = postTemplate.querySelector(".element").cloneNode(true);
+  postElement.querySelector(".element__image").src = data.link;
+  postElement.querySelector(".element__image").alt = data.name;
+  postElement.querySelector(".rectangle__text").textContent = data.name;
+  postElement
+    .querySelector(".element__button-delete-post")
+    .addEventListener("click", removePostHandler);
+  postElement
+    .querySelector(".rectangle__button-like")
+    .addEventListener("click", likePost);
+  postElement
+    .querySelector(".element__button-image-open")
+    .addEventListener("click", OpenPopupImages);
+
+  return postElement;
+}
+
+function renderCard(card) {
+  postsElement.prepend(card);
+}
+
+initialCards.forEach((data) => {
+  //перебираем все элементы пассива отправляя по очереди их в переменную data
+  renderCard(createCard(data));
 });
 
-const postingForm = (event) => {
+const submitProfileForm = (event) => {
   event.preventDefault();
   if (!titleInput.value == 0 && !linknput.value == 0) {
     //не создаем пустую карточку
-    post = {
+    data = {
       name: titleInput.value,
       link: linknput.value,
     };
-    addPost(post);
-    removePopup();
-    formElement[1].reset();
+    renderCard(createCard(data));
+    closePopup(popupPosts);
+    formElementCards.reset();
   }
 };
 
-function addPopup() {
-  //функция открытия попапа и присвоения значений имени и вида деятельностии к текстовым полям инпут
-  popup[0].classList.add("popup_opened"); // открываем 1 попап с вводом имени и работы из массива попапов
+function openPopup(OpenPopupName) {
+  //функция открытия попапов
+  OpenPopupName.classList.add("popup_opened");
+}
+
+function openProfilePopup() {
+  //функция открытия попапа с профилем и подтягивание данных из имени и рода деятельности в поля ввода
   jobInput.value = profileInfoSubtitle.textContent;
   nameInput.value = profileInfoTitle.textContent;
+  openPopup(popupProfile);
 }
 
-function postPopupOpen() {
-  popup[1].classList.add("popup_opened"); // открываем 2 попап с вводом имени и работы из массива попапов
+function OpenPopupImages() {
+  popupImages.querySelector(".popup__image-open").src = event.target.src;
+  popupImages.querySelector(".popup__image-text").textContent =
+    event.target.alt;
+  openPopup(popupImages);
 }
 
-function removePopup() {
-  //функция закрытия попапа
-  if (popup[0].classList.contains("popup_opened")) {
-    popup[0].classList.remove("popup_opened"); // закрываем 1 попап с вводом имени и работы из массива попапов
-  } else if (popup[1].classList.contains("popup_opened")) {
-    popup[1].classList.remove("popup_opened"); // закрываем 2 попап
-  } else {
-    popup[2].classList.remove("popup_opened"); // закрываем 3 попап
-  }
+function closePopup(ClosePopupName) {
+  ClosePopupName.classList.remove("popup_opened");
 }
 
 function formSubmitHandler(evt) {
@@ -123,17 +127,19 @@ function formSubmitHandler(evt) {
   profileInfoTitle.textContent = nameInput.value;
   profileInfoSubtitle.textContent = jobInput.value;
 
-  removePopup();
+  closePopup(popupProfile);
 }
 
-formElement[0].addEventListener("submit", formSubmitHandler); // отправка формы с именем и работой
-formElement[1].addEventListener("submit", postingForm); // отправка формы с названием и фото
-openPopupButton.addEventListener("click", addPopup); // открытие попапов с вводом имени и работы
-openPopupButtonPost.addEventListener("click", postPopupOpen); //открытие попапа с добавлением картинки
+formElementProfile.addEventListener("submit", formSubmitHandler); // отправка формы с именем и работой
+formElementCards.addEventListener("submit", submitProfileForm); // отправка формы с названием и фото
+openPopupButton.addEventListener("click", openProfilePopup); // открытие попапов с вводом имени и работы
+openPopupButtonPost.addEventListener("click", () => {
+  openPopup(popupPosts);
+}); //открытие попапа с добавлением картинки и названия 
 
 closePopupButton.forEach((item) => {
-  //я не понимаю как это заработало, повесил циклом на все кнопки обработчик закрытия
-  item.addEventListener("click", () => {
-    removePopup();
+  //повесил циклом на все кнопки обработчик закрытия
+  item.addEventListener("click", (evt) => {
+    closePopup(evt.target.closest(".popup"));
   });
 });
