@@ -26,10 +26,12 @@ const initialCards = [
   },
 ];
 
-const closePopupButton = document.querySelectorAll(".popup__button-close"); // кнопка закрытия попапа
+const closePopupButton = document.querySelectorAll(".popup__button-close"); // кнопки закрытия попапа
+const popup = document.querySelectorAll(".popup"); // переменная с попапами
 const popupProfile = document.querySelector(".popup-profile"); // попап редактирования профиля
 const popupPosts = document.querySelector(".popup-posts"); // попап добавления поста
 const popupImages = document.querySelector(".popup-images"); // попап открытия картинки
+const popupContainer = document.querySelectorAll(".popup__container"); // переменная с контейнерами попапа
 
 const openPopupButton = document.querySelector(".button_type_edit"); // кнопка отправки данных об имени и работе
 const openPopupButtonPost = document.querySelector(".button_type_add"); // кнопка открытия окна для публикации поста
@@ -47,6 +49,16 @@ const postsElement = document.querySelector(".elements"); //контейнер �
 
 const titleInput = document.querySelector('input[name="title"]'); //поле текста карточки
 const linknput = document.querySelector('input[name="link"]'); //поле ссылки на картинку
+
+const dataNamingConfiuration = {
+  // конфигурация названий классов
+  formSelector: ".popup__form",
+  inputSelector: ".popup__filed",
+  submitButtonSelector: ".popup__submit-button",
+  inactiveButtonClass: "popup__button_disabled",
+  inputErrorClass: "popup__input_type_error",
+  errorClass: "popup__error_visible",
+};
 
 function likePost(event) {
   event.target.classList.toggle("rectangle__button-like_active"); //окрашиваем сердечко в черный цвет при помощи дополнительного класса
@@ -70,7 +82,7 @@ function createCard(data) {
     .addEventListener("click", likePost);
   postElement
     .querySelector(".element__button-image-open")
-    .addEventListener("click", OpenPopupImages);
+    .addEventListener("click", openPopupImages);
 
   return postElement;
 }
@@ -84,18 +96,16 @@ initialCards.forEach((data) => {
   renderCard(createCard(data));
 });
 
-const submitProfileForm = (event) => {
-  event.preventDefault();
-  if (!titleInput.value == 0 && !linknput.value == 0) {
-    //не создаем пустую карточку
-    data = {
-      name: titleInput.value,
-      link: linknput.value,
-    };
-    renderCard(createCard(data));
-    closePopup(popupPosts);
-    formElementCards.reset();
-  }
+const submitProfileForm = () => {
+  data = {
+    name: titleInput.value,
+    link: linknput.value,
+  };
+  renderCard(createCard(data));
+
+  closePopup(popupPosts);
+
+  formElementCards.reset();
 };
 
 function openPopup(OpenPopupName) {
@@ -110,20 +120,35 @@ function openProfilePopup() {
   openPopup(popupProfile);
 }
 
-function OpenPopupImages() {
+function clearingErrorFields(evt) {
+  // функция очистки ошибок в форме, если пользователь ввел данные и нажал крестик,а потом опять открыл попап с формой
+  const inputElement = evt.querySelectorAll(".popup__filed");
+
+  const formReset = evt.querySelector('.popup__form');
+
+  inputElement.forEach((data) => {
+    data.classList.remove(dataNamingConfiuration.inputErrorClass); // удаляем подчеркивание краным цветом у двх элементов инпут
+    evt
+      .querySelector(`.${data.id}-error`)
+      .classList.remove(dataNamingConfiuration.errorClass); //скрываем ошибку
+  });
+
+  formReset.reset();
+
+}
+
+function openPopupImages(event) {
   popupImages.querySelector(".popup__image-open").src = event.target.src;
   popupImages.querySelector(".popup__image-text").textContent =
     event.target.alt;
   openPopup(popupImages);
 }
 
-function closePopup(ClosePopupName) {
-  ClosePopupName.classList.remove("popup_opened");
+function closePopup(closePopupName) {
+  closePopupName.classList.remove("popup_opened");
 }
 
-function formSubmitHandler(evt) {
-  evt.preventDefault();
-
+function formSubmitHandler() {
   profileInfoTitle.textContent = nameInput.value;
   profileInfoSubtitle.textContent = jobInput.value;
 
@@ -135,11 +160,44 @@ formElementCards.addEventListener("submit", submitProfileForm); // отправ�
 openPopupButton.addEventListener("click", openProfilePopup); // открытие попапов с вводом имени и работы
 openPopupButtonPost.addEventListener("click", () => {
   openPopup(popupPosts);
-}); //открытие попапа с добавлением картинки и названия 
+}); //открытие попапа с добавлением картинки и названия
 
 closePopupButton.forEach((item) => {
-  //повесил циклом на все кнопки обработчик закрытия
+  //повесил циклом на все кнопки обработчик закрытия по нажатию на крестик
   item.addEventListener("click", (evt) => {
+    if (!evt.target.closest(".popup").classList.contains("popup-images")) {
+      //проверяем на каком попапе нажали крестик, чтобы сделать сброс только на попапе с инпутами
+      clearingErrorFields(evt.target.closest(".popup"));
+    }
     closePopup(evt.target.closest(".popup"));
   });
+});
+
+popup.forEach((item) => {
+  //повесил циклом на все кнопки обработчик закрытия по нажатию на затемненный фон без проблем при выделении текста и выходе за границы блока
+  item.addEventListener("mousedown", (evt) => {
+    if (!evt.target.closest(".popup").classList.contains("popup-images")) {
+      //проверяем на каком попапе нажали крестик, чтобы сделать сброс только на попапе с инпутами
+      clearingErrorFields(evt.target.closest(".popup"));
+    }
+    closePopup(evt.target.closest(".popup"));
+  });
+});
+
+popupContainer.forEach((item) => {
+  item.addEventListener("mousedown", (evt) => {
+    evt.stopPropagation();
+  });
+});
+
+document.addEventListener("keydown", (evt) => {
+  if (evt.key == "Escape") {
+    popup.forEach((elem) => {
+      //перебираем попапы для поиска попапа с классом открытия
+      if (elem.classList.contains("popup_opened")) {
+        //если есть класс открыя
+        closePopup(elem); //передаем в функцию закрытия этот элемент
+      }
+    });
+  }
 });

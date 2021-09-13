@@ -12,10 +12,6 @@
   color: #000000;
 }
 
-.popup__filed:nth-child(1) {
-  margin-bottom: 24px;
-}
-
 .popup__filed:focus {
   outline-style: none;
 }
