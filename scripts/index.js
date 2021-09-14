@@ -50,6 +50,8 @@ const postsElement = document.querySelector(".elements"); //контейнер �
 const titleInput = document.querySelector('input[name="title"]'); //поле текста карточки
 const linknput = document.querySelector('input[name="link"]'); //поле ссылки на картинку
 
+const popupForm = document.querySelectorAll(".popup__form"); //поле ссылки на картинку
+
 const dataNamingConfiuration = {
   // конфигурация названий классов
   formSelector: ".popup__form",
@@ -101,16 +103,38 @@ const submitProfileForm = () => {
     name: titleInput.value,
     link: linknput.value,
   };
+
   renderCard(createCard(data));
 
   closePopup(popupPosts);
 
   formElementCards.reset();
+
+  const buttonElement = document.querySelector(".popup__submit-button_post");
+  buttonElement.classList.add(dataNamingConfiuration.inactiveButtonClass);
+  buttonElement.setAttribute("disabled", true); //отключаем кнопку после отправки формы
+  buttonElement.classList.remove("popup__submit-button_hover"); //удаляем активацию при наведении у кнопки
+};
+
+const downKeydown = (evt) => {
+  if (evt.key == "Escape") {
+    console.log("я работаю");
+    popup.forEach((elem) => {
+      if (elem.classList.contains("popup_opened")) {
+        closePopup(elem);
+        if (!elem.classList.contains("popup-images")) { // очищаем форму при услови, что это не попап с картинкой 
+          clearingErrorFields(elem);
+        }
+      }
+    });
+  }
 };
 
 function openPopup(OpenPopupName) {
   //функция открытия попапов
   OpenPopupName.classList.add("popup_opened");
+
+  document.addEventListener("keydown", downKeydown);
 }
 
 function openProfilePopup() {
@@ -120,32 +144,18 @@ function openProfilePopup() {
   openPopup(popupProfile);
 }
 
-function clearingErrorFields(evt) {
-  // функция очистки ошибок в форме, если пользователь ввел данные и нажал крестик,а потом опять открыл попап с формой
-  const inputElement = evt.querySelectorAll(".popup__filed");
-
-  const formReset = evt.querySelector('.popup__form');
-
-  inputElement.forEach((data) => {
-    data.classList.remove(dataNamingConfiuration.inputErrorClass); // удаляем подчеркивание краным цветом у двх элементов инпут
-    evt
-      .querySelector(`.${data.id}-error`)
-      .classList.remove(dataNamingConfiuration.errorClass); //скрываем ошибку
-  });
-
-  formReset.reset();
-
-}
-
 function openPopupImages(event) {
   popupImages.querySelector(".popup__image-open").src = event.target.src;
   popupImages.querySelector(".popup__image-text").textContent =
     event.target.alt;
+  popupImages.querySelector(".popup__image-open").alt = event.target.alt;
   openPopup(popupImages);
 }
 
 function closePopup(closePopupName) {
   closePopupName.classList.remove("popup_opened");
+
+  document.removeEventListener("keydown", downKeydown);
 }
 
 function formSubmitHandler() {
@@ -162,42 +172,44 @@ openPopupButtonPost.addEventListener("click", () => {
   openPopup(popupPosts);
 }); //открытие попапа с добавлением картинки и названия
 
-closePopupButton.forEach((item) => {
-  //повесил циклом на все кнопки обработчик закрытия по нажатию на крестик
-  item.addEventListener("click", (evt) => {
-    if (!evt.target.closest(".popup").classList.contains("popup-images")) {
-      //проверяем на каком попапе нажали крестик, чтобы сделать сброс только на попапе с инпутами
-      clearingErrorFields(evt.target.closest(".popup"));
-    }
-    closePopup(evt.target.closest(".popup"));
-  });
-});
-
-popup.forEach((item) => {
-  //повесил циклом на все кнопки обработчик закрытия по нажатию на затемненный фон без проблем при выделении текста и выходе за границы блока
-  item.addEventListener("mousedown", (evt) => {
-    if (!evt.target.closest(".popup").classList.contains("popup-images")) {
-      //проверяем на каком попапе нажали крестик, чтобы сделать сброс только на попапе с инпутами
-      clearingErrorFields(evt.target.closest(".popup"));
-    }
-    closePopup(evt.target.closest(".popup"));
-  });
-});
-
-popupContainer.forEach((item) => {
-  item.addEventListener("mousedown", (evt) => {
-    evt.stopPropagation();
-  });
-});
-
-document.addEventListener("keydown", (evt) => {
-  if (evt.key == "Escape") {
-    popup.forEach((elem) => {
-      //перебираем попапы для поиска попапа с классом открытия
-      if (elem.classList.contains("popup_opened")) {
-        //если есть класс открыя
-        closePopup(elem); //передаем в функцию закрытия этот элемент
+popup.forEach((elem) => {
+  elem.addEventListener("mousedown", (evt) => {
+    if (
+      evt.target.classList.contains("popup") ||
+      evt.target.classList.contains("popup__button-close")
+    ) {
+      closePopup(elem);
+      if (!elem.classList.contains("popup-images")) {// очищаем форму при услови, что это не попап с картинкой 
+        clearingErrorFields(elem);
       }
-    });
-  }
+    }
+  });
 });
+
+// closePopupButton.forEach((item) => {
+//   //повесил циклом на все кнопки обработчик закрытия по нажатию на крестик
+//   item.addEventListener("click", (evt) => {
+//     if (!evt.target.closest(".popup").classList.contains("popup-images")) {
+//       //проверяем на каком попапе нажали крестик, чтобы сделать сброс только на попапе с инпутами
+//       clearingErrorFields(evt.target.closest(".popup"));
+//     }
+//     closePopup(evt.target.closest(".popup"));
+//   });
+// });
+
+// popup.forEach((item) => {
+//   //повесил циклом на все кнопки обработчик закрытия по нажатию на затемненный фон без проблем при выделении текста и выходе за границы блока
+//   item.addEventListener("mousedown", (evt) => {
+//     if (!evt.target.closest(".popup").classList.contains("popup-images")) {
+//       //проверяем на каком попапе нажали крестик, чтобы сделать сброс только на попапе с инпутами
+//       clearingErrorFields(evt.target.closest(".popup"));
+//     }
+//     closePopup(evt.target.closest(".popup"));
+//   });
+// });
+
+// popupContainer.forEach((item) => {
+//   item.addEventListener("mousedown", (evt) => {
+//     evt.stopPropagation();
+//   });
+// });

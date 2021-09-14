@@ -1,0 +1,4 @@
+.popup__submit-button_hover:hover {
+  transition: 0.5s;
+  opacity: 0.8;
+}

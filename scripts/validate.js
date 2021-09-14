@@ -18,10 +18,12 @@ const toggleButtonState = (inputList, buttonElement, inactiveButtonClass) => {
     // сделай кнопку неактивной
     buttonElement.classList.add(inactiveButtonClass);
     buttonElement.setAttribute('disabled', true);//отключаем кнопку если все плохо 
+    buttonElement.classList.remove('popup__submit-button_hover'); //удаляем активацию при наведении у кнопки 
   } else {
     // иначе сделай кнопку активной
     buttonElement.classList.remove(inactiveButtonClass);
-    buttonElement.removeAttribute('disabled');//активируем кнопку если все хорошо 
+    buttonElement.removeAttribute('disabled');//активируем кнопку если все хорошо
+    buttonElement.classList.add('popup__submit-button_hover'); //добавляем активацию при наведении у кнопки
   }
 };
 
@@ -153,3 +155,20 @@ const enableValidation = (config) => {
 
 // Вызовем функцию
 enableValidation(dataNamingConfiuration);
+
+function clearingErrorFields(evt) {
+  // функция очистки ошибок в форме, если пользователь ввел данные и нажал крестик,а потом опять открыл попап с формой
+  const inputElement = evt.querySelectorAll(".popup__filed");
+
+  const formReset = evt.querySelector('.popup__form');
+
+  inputElement.forEach((data) => {
+    data.classList.remove(dataNamingConfiuration.inputErrorClass); // удаляем подчеркивание краным цветом у двх элементов инпут
+    evt
+      .querySelector(`.${data.id}-error`)
+      .classList.remove(dataNamingConfiuration.errorClass); //скрываем ошибку
+  });
+
+  formReset.reset();
+
+}
