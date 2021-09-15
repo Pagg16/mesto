@@ -17,13 +17,13 @@ const toggleButtonState = (inputList, buttonElement, inactiveButtonClass) => {
   if (hasInvalidInput(inputList)) {
     // сделай кнопку неактивной
     buttonElement.classList.add(inactiveButtonClass);
-    buttonElement.setAttribute('disabled', true);//отключаем кнопку если все плохо 
-    buttonElement.classList.remove('popup__submit-button_hover'); //удаляем активацию при наведении у кнопки 
+    buttonElement.setAttribute("disabled", true); //отключаем кнопку если все плохо
+    buttonElement.classList.remove("popup__submit-button_hover"); //удаляем активацию при наведении у кнопки
   } else {
     // иначе сделай кнопку активной
     buttonElement.classList.remove(inactiveButtonClass);
-    buttonElement.removeAttribute('disabled');//активируем кнопку если все хорошо
-    buttonElement.classList.add('popup__submit-button_hover'); //добавляем активацию при наведении у кнопки
+    buttonElement.removeAttribute("disabled"); //активируем кнопку если все хорошо
+    buttonElement.classList.add("popup__submit-button_hover"); //добавляем активацию при наведении у кнопки
   }
 };
 
@@ -82,12 +82,7 @@ const isValid = (
   } else {
     // hideInputError теперь получает параметром форму, в которой
     // находится проверяемое поле, и само это поле
-    hideInputError(
-      formElement,
-      inputElement,
-      inputErrorClass,
-      errorClass
-    );
+    hideInputError(formElement, inputElement, inputErrorClass, errorClass);
   }
 };
 
@@ -157,18 +152,19 @@ const enableValidation = (config) => {
 enableValidation(dataNamingConfiuration);
 
 function clearingErrorFields(evt) {
-  // функция очистки ошибок в форме, если пользователь ввел данные и нажал крестик,а потом опять открыл попап с формой
-  const inputElement = evt.querySelectorAll(".popup__filed");
+  if (!evt.classList.contains("popup-images")) {// очищаем форму при услови, что это не попап с картинкой
+    // функция очистки ошибок в форме, если пользователь ввел данные и нажал крестик,а потом опять открыл попап с формой
+    const inputElement = evt.querySelectorAll(".popup__filed");
 
-  const formReset = evt.querySelector('.popup__form');
+    const formReset = evt.querySelector(".popup__form");
 
-  inputElement.forEach((data) => {
-    data.classList.remove(dataNamingConfiuration.inputErrorClass); // удаляем подчеркивание краным цветом у двх элементов инпут
-    evt
-      .querySelector(`.${data.id}-error`)
-      .classList.remove(dataNamingConfiuration.errorClass); //скрываем ошибку
-  });
+    inputElement.forEach((data) => {
+      data.classList.remove(dataNamingConfiuration.inputErrorClass); // удаляем подчеркивание краным цветом у двх элементов инпут
+      evt
+        .querySelector(`.${data.id}-error`)
+        .classList.remove(dataNamingConfiuration.errorClass); //скрываем ошибку
+    });
 
-  formReset.reset();
-
+    formReset.reset();
+  }
 }

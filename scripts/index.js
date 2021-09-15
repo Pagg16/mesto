@@ -118,21 +118,15 @@ const submitProfileForm = () => {
 
 const downKeydown = (evt) => {
   if (evt.key == "Escape") {
-    console.log("я работаю");
-    popup.forEach((elem) => {
-      if (elem.classList.contains("popup_opened")) {
-        closePopup(elem);
-        if (!elem.classList.contains("popup-images")) { // очищаем форму при услови, что это не попап с картинкой 
-          clearingErrorFields(elem);
-        }
-      }
-    });
+    const popupActive = document.querySelector(".popup_opened");//находим открытый попап 
+    closePopup(popupActive); //закрываем его 
+    clearingErrorFields(popupActive); //отправляем данные в функцию очистки формы 
   }
 };
 
-function openPopup(OpenPopupName) {
+function openPopup(openPopupName) {
   //функция открытия попапов
-  OpenPopupName.classList.add("popup_opened");
+  openPopupName.classList.add("popup_opened");
 
   document.addEventListener("keydown", downKeydown);
 }
@@ -179,37 +173,10 @@ popup.forEach((elem) => {
       evt.target.classList.contains("popup__button-close")
     ) {
       closePopup(elem);
-      if (!elem.classList.contains("popup-images")) {// очищаем форму при услови, что это не попап с картинкой 
+      if (!elem.classList.contains("popup-images")) {
+        // очищаем форму при услови, что это не попап с картинкой
         clearingErrorFields(elem);
       }
     }
   });
 });
-
-// closePopupButton.forEach((item) => {
-//   //повесил циклом на все кнопки обработчик закрытия по нажатию на крестик
-//   item.addEventListener("click", (evt) => {
-//     if (!evt.target.closest(".popup").classList.contains("popup-images")) {
-//       //проверяем на каком попапе нажали крестик, чтобы сделать сброс только на попапе с инпутами
-//       clearingErrorFields(evt.target.closest(".popup"));
-//     }
-//     closePopup(evt.target.closest(".popup"));
-//   });
-// });
-
-// popup.forEach((item) => {
-//   //повесил циклом на все кнопки обработчик закрытия по нажатию на затемненный фон без проблем при выделении текста и выходе за границы блока
-//   item.addEventListener("mousedown", (evt) => {
-//     if (!evt.target.closest(".popup").classList.contains("popup-images")) {
-//       //проверяем на каком попапе нажали крестик, чтобы сделать сброс только на попапе с инпутами
-//       clearingErrorFields(evt.target.closest(".popup"));
-//     }
-//     closePopup(evt.target.closest(".popup"));
-//   });
-// });
-
-// popupContainer.forEach((item) => {
-//   item.addEventListener("mousedown", (evt) => {
-//     evt.stopPropagation();
-//   });
-// });
