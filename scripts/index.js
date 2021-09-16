@@ -118,9 +118,8 @@ const submitProfileForm = () => {
 
 const downKeydown = (evt) => {
   if (evt.key == "Escape") {
-    const popupActive = document.querySelector(".popup_opened");//находим открытый попап 
-    closePopup(popupActive); //закрываем его 
-    clearingErrorFields(popupActive); //отправляем данные в функцию очистки формы 
+    const popupActive = document.querySelector(".popup_opened"); //находим открытый попап
+    closePopup(popupActive); //закрываем его
   }
 };
 
@@ -149,6 +148,8 @@ function openPopupImages(event) {
 function closePopup(closePopupName) {
   closePopupName.classList.remove("popup_opened");
 
+  clearingErrorFields(closePopupName); //отправляем данные в функцию очистки формы
+
   document.removeEventListener("keydown", downKeydown);
 }
 
@@ -173,10 +174,6 @@ popup.forEach((elem) => {
       evt.target.classList.contains("popup__button-close")
     ) {
       closePopup(elem);
-      if (!elem.classList.contains("popup-images")) {
-        // очищаем форму при услови, что это не попап с картинкой
-        clearingErrorFields(elem);
-      }
     }
   });
 });
