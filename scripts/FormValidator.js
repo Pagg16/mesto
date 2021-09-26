@@ -1,11 +1,14 @@
 export class FormValidator {
-  constructor(dataNamingConfiuration, formElement) {
-    this._formSelector = dataNamingConfiuration.formSelector;
-    this._inputSelector = dataNamingConfiuration.inputSelector;
-    this._submitButtonSelector = dataNamingConfiuration.submitButtonSelector;
-    this._inactiveButtonClass = dataNamingConfiuration.inactiveButtonClass;
-    this._inputErrorClass = dataNamingConfiuration.inputErrorClass;
-    this._errorClass = dataNamingConfiuration.errorClass;
+  constructor(data, formElement) {
+    this._formSelector = data.formSelector;
+    this._inputSelector = data.inputSelector;
+    this._popupSubmitButtonHover = data.popupSubmitButtonHover;
+    this._popopImage = data.popopImage;
+    this._submitButtonSelector = data.submitButtonSelector;
+    this._inactiveButtonClass = data.inactiveButtonClass;
+    this._inputErrorClass = data.inputErrorClass;
+    this._errorClass = data.errorClass;
+
     this._formElement = formElement;
   }
 
@@ -29,12 +32,12 @@ export class FormValidator {
       // сделай кнопку неактивной
       buttonElement.classList.add(this._inactiveButtonClass);
       buttonElement.setAttribute("disabled", true); //отключаем кнопку если все плохо
-      buttonElement.classList.remove("popup__submit-button_hover"); //удаляем активацию при наведении у кнопки
+      buttonElement.classList.remove(this._popupSubmitButtonHover); //удаляем активацию при наведении у кнопки
     } else {
       // иначе сделай кнопку активной
       buttonElement.classList.remove(this._inactiveButtonClass);
       buttonElement.removeAttribute("disabled"); //активируем кнопку если все хорошо
-      buttonElement.classList.add("popup__submit-button_hover"); //добавляем активацию при наведении у кнопки
+      buttonElement.classList.add(this._popupSubmitButtonHover); //добавляем активацию при наведении у кнопки
     }
   };
 
@@ -83,7 +86,6 @@ export class FormValidator {
     const inputList = Array.from(
       this._formElement.querySelectorAll(this._inputSelector)
     );
-
     // Найдём в текущей форме кнопку отправки
     const buttonElement = this._formElement.querySelector(this._submitButtonSelector);
 
@@ -114,19 +116,21 @@ export class FormValidator {
   };
 }
 
-export function clearingErrorFields(evt) {
-    if (!evt.classList.contains("popup-images")) {// очищаем форму при услови, что это не попап с картинкой
+export function clearingErrorFields(evt, classdata) {
+    if (!evt.classList.contains(classdata.popopImage)) {// очищаем форму при услови, что это не попап с картинкой
       // функция очистки ошибок в форме, если пользователь ввел данные и нажал крестик,а потом опять открыл попап с формой
-      const inputElement = evt.querySelectorAll(".popup__filed");
+      const inputElement = evt.querySelectorAll(classdata.inputSelector);
   
-      const formReset = evt.querySelector(".popup__form");
+      const formReset = evt.querySelector(classdata.formSelector);
   
       inputElement.forEach((data) => {
-        data.classList.remove("popup__input_type_error"); // удаляем подчеркивание краным цветом у двх элементов инпут
+        data.classList.remove(classdata.inputErrorClass); // удаляем подчеркивание краным цветом у двх элементов инпут
         evt
           .querySelector(`.${data.id}-error`)
-          .classList.remove("popup__error_visible"); //скрываем ошибку
+          .classList.remove(classdata.errorClass); //скрываем ошибку
       });
+
+      
   
       formReset.reset();
     }

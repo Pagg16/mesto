@@ -1,55 +1,52 @@
-import { openPopup } from "./index.js";
-
 export class Card {
-  constructor(data, cardSelector) {
+  constructor(data, cardSelector, handleImageClick, dataNamingClass) {
     this._name = data.name;
     this._link = data.link;
     this._cardSelector = cardSelector;
+
+    this._postElement = dataNamingClass.postElement;
+    this._rectangleButtonLikeActive = dataNamingClass.rectangleButtonLikeActive;
+    this._buttonDelitePost = dataNamingClass.buttonDelitePost;
+    this._rectangleButtonLike = dataNamingClass.rectangleButtonLike;
+    this._buttonImageOpen = dataNamingClass.buttonImageOpen;
+    this._elementImage = dataNamingClass.elementImage;
+    this._rectangleText = dataNamingClass.rectangleText;
+
+    this._handleImageClick = handleImageClick;
   }
 
   _getTemplate() {
     const postElement = document
       .getElementById(this._cardSelector)
-      .content.querySelector(".element")
+      .content.querySelector(this._postElement)
       .cloneNode(true);
 
     return postElement;
   }
 
-  _removePostHandler = (event) => {
-    event.target.closest(".element").remove(); //удаляем карточку при нажатии на иконку
+  _removePost = (event) => {
+    event.target.closest(this._postElement).remove(); //удаляем карточку при нажатии на иконку
   };
 
   _likePost(event) {
-    event.target.classList.toggle("rectangle__button-like_active"); //окрашиваем сердечко в черный цвет при помощи дополнительного класса
-  }
-
-  _openPopupImages(event) {
-    const popupImages = document.querySelector(".popup-images");
-
-    popupImages.querySelector(".popup__image-open").src = event.target.src;
-    popupImages.querySelector(".popup__image-text").textContent =
-      event.target.alt;
-    popupImages.querySelector(".popup__image-open").alt = event.target.alt;
-
-    openPopup(popupImages);
+    event.target.classList.toggle(this._rectangleButtonLikeActive); //окрашиваем сердечко в черный цвет при помощи дополнительного класса
   }
 
   _setEventListeners() {
     this._element
-      .querySelector(".element__button-delete-post")
+      .querySelector(this._buttonDelitePost)
       .addEventListener("click", (event) => {
-        this._removePostHandler(event);
+        this._removePost(event);
       });
     this._element
-      .querySelector(".rectangle__button-like")
+      .querySelector(this._rectangleButtonLike)
       .addEventListener("click", (event) => {
         this._likePost(event);
       });
     this._element
-      .querySelector(".element__button-image-open")
-      .addEventListener("click", (event) => {
-        this._openPopupImages(event);
+      .querySelector(this._buttonImageOpen)
+      .addEventListener("click", () => {
+        this._handleImageClick(this._name, this._link);
       });
   }
 
@@ -57,9 +54,9 @@ export class Card {
     //собираем карточку с картинкой
     this._element = this._getTemplate();
 
-    this._element.querySelector(".element__image").src = this._link;
-    this._element.querySelector(".element__image").alt = this._name;
-    this._element.querySelector(".rectangle__text").textContent = this._name;
+    this._element.querySelector(this._elementImage).src = this._link;
+    this._element.querySelector(this._elementImage).alt = this._name;
+    this._element.querySelector(this._rectangleText).textContent = this._name;
 
     this._setEventListeners();
 
