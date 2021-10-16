@@ -13,6 +13,7 @@ export class Card {
     this._rectangleText = dataNamingClass.rectangleText;
 
     this._handleImageClick = handleImageClick;
+
   }
 
   _getTemplate() {
@@ -33,6 +34,7 @@ export class Card {
   }
 
   _setEventListeners() {
+
     this._element
       .querySelector(this._buttonDelitePost)
       .addEventListener("click", (event) => {

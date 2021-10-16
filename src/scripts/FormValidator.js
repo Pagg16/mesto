@@ -44,7 +44,9 @@ export class FormValidator {
   // Функция, которая добавляет класс с ошибкой
   _showInputError = (inputElement, errorMessage) => {
     // Находим элемент ошибки внутри самой функции
-    const errorElement = this._formElement.querySelector(`.${inputElement.id}-error`);
+    const errorElement = this._formElement.querySelector(
+      `.${inputElement.id}-error`
+    );
 
     inputElement.classList.add(this._inputErrorClass);
     // Показываем сообщение об ошибке
@@ -55,7 +57,9 @@ export class FormValidator {
   // Функция, которая удаляет класс с ошибкой
   _hideInputError = (inputElement) => {
     // Находим элемент ошибки
-    const errorElement = this._formElement.querySelector(`.${inputElement.id}-error`);
+    const errorElement = this._formElement.querySelector(
+      `.${inputElement.id}-error`
+    );
 
     inputElement.classList.remove(this._inputErrorClass);
     // Скрываем сообщение об ошибке
@@ -69,10 +73,7 @@ export class FormValidator {
     if (!inputElement.validity.valid) {
       // showInputError получает параметром форму, в которой
       // находится проверяемое поле, и само это поле
-      this._showInputError(
-        inputElement,
-        inputElement.validationMessage
-      );
+      this._showInputError(inputElement, inputElement.validationMessage);
     } else {
       // hideInputError теперь получает параметром форму, в которой
       // находится проверяемое поле, и само это поле
@@ -87,7 +88,9 @@ export class FormValidator {
       this._formElement.querySelectorAll(this._inputSelector)
     );
     // Найдём в текущей форме кнопку отправки
-    const buttonElement = this._formElement.querySelector(this._submitButtonSelector);
+    const buttonElement = this._formElement.querySelector(
+      this._submitButtonSelector
+    );
 
     // Вызовем toggleButtonState, чтобы не ждать ввода данных в поля
     this._toggleButtonState(inputList, buttonElement);
@@ -106,32 +109,37 @@ export class FormValidator {
   };
 
   enableValidation = () => {
-        this._formElement.addEventListener("submit", (evt) => {
-        // У каждой формы отменим стандартное поведение
-        evt.preventDefault();
-        });
-      // Для формы вызовем функцию setEventListeners,
-      // передав ей элемент формы
-      this._setEventListeners();
+    this._formElement.addEventListener("submit", (evt) => {
+      // У каждой формы отменим стандартное поведение
+      evt.preventDefault();
+    });
+    // Для формы вызовем функцию setEventListeners,
+    // передав ей элемент формы
+    this._setEventListeners();
   };
-}
 
-export function clearingErrorFields(evt, classdata) {
-    if (!evt.classList.contains(classdata.popopImage)) {// очищаем форму при услови, что это не попап с картинкой
-      // функция очистки ошибок в форме, если пользователь ввел данные и нажал крестик,а потом опять открыл попап с формой
-      const inputElement = evt.querySelectorAll(classdata.inputSelector);
-  
-      const formReset = evt.querySelector(classdata.formSelector);
-  
-      inputElement.forEach((data) => {
-        data.classList.remove(classdata.inputErrorClass); // удаляем подчеркивание краным цветом у двх элементов инпут
-        evt
-          .querySelector(`.${data.id}-error`)
-          .classList.remove(classdata.errorClass); //скрываем ошибку
-      });
+  clearingErrorFields() {
+    const buttonElement = this._formElement.querySelector(
+      this._submitButtonSelector
+    );
+    // очищаем форму при услови, что это не попап с картинкой
+    // функция очистки ошибок в форме, если пользователь ввел данные и нажал крестик,а потом опять открыл попап с формой
+    const inputElement = this._formElement.querySelectorAll(
+      this._inputSelector
+    );
 
-      
-  
-      formReset.reset();
-    }
+    const formReset = this._formElement.querySelector(this._formSelector);
+
+    inputElement.forEach((data) => {
+      data.classList.remove(this._inputErrorClass); // удаляем подчеркивание краным цветом у двх элементов инпут
+      this._formElement
+        .querySelector(`.${data.id}-error`)
+        .classList.remove(this._errorClass); //скрываем ошибку
+    });
+    formReset.reset();
+
+      buttonElement.classList.add(this._inactiveButtonClass);
+      buttonElement.setAttribute("disabled", true); //отключаем кнопку после отправки формы
+      buttonElement.classList.remove(this._popupSubmitButtonHover); //удаляем активацию при наведении у кнопки
   }
+}
