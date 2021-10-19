@@ -31,12 +31,14 @@ export class Popup {
     }
   }
 
-  setEventListeners(evt) {
+  setEventListeners() {
+    this._PopupSelector.addEventListener('click', (evt) => {
     if (
       evt.target.classList.contains(this._popup) ||
       evt.target.classList.contains(this._popupButtonClose)
     ) {
       this.close();
     }
+    });
   }
 }

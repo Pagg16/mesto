@@ -26,7 +26,7 @@ export class Card {
   }
 
   _removePost = (event) => {
-    event.target.closest(this._postElement).remove(); //удаляем карточку при нажатии на иконку
+    this._element.remove(); //удаляем карточку при нажатии на иконку
   };
 
   _likePost(event) {
@@ -37,8 +37,8 @@ export class Card {
 
     this._element
       .querySelector(this._buttonDelitePost)
-      .addEventListener("click", (event) => {
-        this._removePost(event);
+      .addEventListener("click", () => {
+        this._removePost();
       });
     this._element
       .querySelector(this._rectangleButtonLike)

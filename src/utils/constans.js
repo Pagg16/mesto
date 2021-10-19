@@ -6,7 +6,7 @@ const basketiconcolor = new URL(
   import.meta.url
 );
 const basketicon = new URL("../images/basket-icon.svg", import.meta.url);
-const CloseIcon = new URL("../images/Close-Icon.svg", import.meta.url);
+const closeIcon = new URL("../images/Close-Icon.svg", import.meta.url);
 const cross = new URL("../images/cross.svg", import.meta.url);
 const gridimage1 = new URL("../images/grid-image1.png", import.meta.url);
 const gridimage2 = new URL("../images/grid-image2.png", import.meta.url);
@@ -15,14 +15,14 @@ const hoverheart = new URL("../images/hover-heart.svg", import.meta.url);
 const pencil = new URL("../images/pencil.svg", import.meta.url);
 const profileimage = new URL("../images/profile-image.png", import.meta.url);
 const rectangleimage = new URL("../images/rectangle-image.svg", import.meta.url);
-const Vector = new URL("../images/Vector.svg", import.meta.url);
+const vector = new URL("../images/Vector.svg", import.meta.url);
 
 export const whoIsTheGoat = [
   // меняем исходные пути на переменные
   { name: "activeheart", image: activeheart },
   { name: "basketiconcolor", image: basketiconcolor },
   { name: "basketicon", image: basketicon },
-  { name: "CloseIcon", image: CloseIcon },
+  { name: "closeIcon", image: closeIcon },
   { name: "cross", image: cross },
   { name: "gridimage1", image: gridimage1 },
   { name: "gridimage2", image: gridimage2 },
@@ -31,7 +31,7 @@ export const whoIsTheGoat = [
   { name: "pencil", image: pencil },
   { name: "profileimage", image: profileimage },
   { name: "rectangleimage", image: rectangleimage },
-  { name: "Vector", link: Vector },
+  { name: "vector", link: vector },
 ];
 
 

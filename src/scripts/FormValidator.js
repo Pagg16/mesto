@@ -10,12 +10,23 @@ export class FormValidator {
     this._errorClass = data.errorClass;
 
     this._formElement = formElement;
+
+    // Находим все поля внутри формы,
+    // сделаем из них массив
+    this._inputList = Array.from(
+      this._formElement.querySelectorAll(this._inputSelector)
+    );
+
+    // Найдём в текущей форме кнопку отправки
+    this._buttonElement = this._formElement.querySelector(
+      this._submitButtonSelector
+    );
   }
 
   // Функция принимает массив полей
-  _hasInvalidInput = (inputList) => {
+  _hasInvalidInput = () => {
     // проходим по этому массиву методом some
-    return inputList.some((inputElement) => {
+    return this._inputList.some((inputElement) => {
       // Если поле не валидно, колбэк вернёт true
       // Обход массива прекратится и вся фунцкция
       // hasInvalidInput вернёт true
@@ -26,18 +37,18 @@ export class FormValidator {
 
   // Функция принимает массив полей ввода
   // и элемент кнопки, состояние которой нужно менять
-  _toggleButtonState = (inputList, buttonElement) => {
+  _toggleButtonState = () => {
     // Если есть хотя бы один невалидный инпут
-    if (this._hasInvalidInput(inputList)) {
+    if (this._hasInvalidInput()) {
       // сделай кнопку неактивной
-      buttonElement.classList.add(this._inactiveButtonClass);
-      buttonElement.setAttribute("disabled", true); //отключаем кнопку если все плохо
-      buttonElement.classList.remove(this._popupSubmitButtonHover); //удаляем активацию при наведении у кнопки
+      this._buttonElement.classList.add(this._inactiveButtonClass);
+      this._buttonElement.setAttribute("disabled", true); //отключаем кнопку если все плохо
+      this._buttonElement.classList.remove(this._popupSubmitButtonHover); //удаляем активацию при наведении у кнопки
     } else {
       // иначе сделай кнопку активной
-      buttonElement.classList.remove(this._inactiveButtonClass);
-      buttonElement.removeAttribute("disabled"); //активируем кнопку если все хорошо
-      buttonElement.classList.add(this._popupSubmitButtonHover); //добавляем активацию при наведении у кнопки
+      this._buttonElement.classList.remove(this._inactiveButtonClass);
+      this._buttonElement.removeAttribute("disabled"); //активируем кнопку если все хорошо
+      this._buttonElement.classList.add(this._popupSubmitButtonHover); //добавляем активацию при наведении у кнопки
     }
   };
 
@@ -82,28 +93,18 @@ export class FormValidator {
   };
 
   _setEventListeners = () => {
-    // Находим все поля внутри формы,
-    // сделаем из них массив
-    const inputList = Array.from(
-      this._formElement.querySelectorAll(this._inputSelector)
-    );
-    // Найдём в текущей форме кнопку отправки
-    const buttonElement = this._formElement.querySelector(
-      this._submitButtonSelector
-    );
-
     // Вызовем toggleButtonState, чтобы не ждать ввода данных в поля
-    this._toggleButtonState(inputList, buttonElement);
+    this._toggleButtonState();
 
     // Обойдём все элементы полученной коллекции
-    inputList.forEach((inputElement) => {
+    this._inputList.forEach((inputElement) => {
       // каждому полю добавим обработчик события input
       inputElement.addEventListener("input", () => {
         // Внутри колбэка вызовем isValid,
         // передав ей форму и проверяемый элемент
         this._isValid(inputElement);
         // Вызовем toggleButtonState и передадим ей массив полей и кнопку
-        this._toggleButtonState(inputList, buttonElement);
+        this._toggleButtonState();
       });
     });
   };
@@ -138,8 +139,8 @@ export class FormValidator {
     });
     formReset.reset();
 
-      buttonElement.classList.add(this._inactiveButtonClass);
-      buttonElement.setAttribute("disabled", true); //отключаем кнопку после отправки формы
-      buttonElement.classList.remove(this._popupSubmitButtonHover); //удаляем активацию при наведении у кнопки
+    buttonElement.classList.add(this._inactiveButtonClass);
+    buttonElement.setAttribute("disabled", true); //отключаем кнопку после отправки формы
+    buttonElement.classList.remove(this._popupSubmitButtonHover); //удаляем активацию при наведении у кнопки
   }
 }

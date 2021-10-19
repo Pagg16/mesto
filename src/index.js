@@ -26,40 +26,54 @@ import {
   whoIsTheGoat,
 } from "./utils/constans.js";
 
+//Функция открытия попапа с картинкой вместе с созданием каточки с попапом===================================================================================================================================================
+const openImage = new PopupWithImage(namingСonfigurator.popupImage); //popop-image
+
 function handleImageClick(name, link) {
   const data = {
     name,
     link,
   };
 
-  const openImage = new PopupWithImage(namingСonfigurator.popupImage); //popop-image
-
   openImage.open(data);
 }
-
+//Данные пользователя==================================================================================================================================================
 const userInfo = new UserInfo({
   nameUsers: ".profile-info__title",
   informUsers: ".profile-info__subtitle",
 });
 
 //Функция генерации карточек================================================================================================================================================
-const cardList = (items) => {
+// const cardList = (items) => {
+//   const cardPost = new Section(
+//     {
+//       items: items,
+//       renderer: function (item) {
+//         const card = createCard(item);
+
+//         const cardElement = card.generateCard();
+
+//         cardPost.addItem(cardElement);
+//       },
+//     },
+//     namingСonfigurator.postsElement
+//   );
+
+//   return cardPost;
+// };
+
   const cardPost = new Section(
-    {
-      items: items,
-      renderer: function (item) {
+     function (item) {
+
         const card = createCard(item);
 
         const cardElement = card.generateCard();
 
         cardPost.addItem(cardElement);
-      },
     },
     namingСonfigurator.postsElement
   );
 
-  return cardPost;
-};
 
 const createCard = (data) => {
   return new Card(
@@ -72,14 +86,12 @@ const createCard = (data) => {
 //===============================================================================================================================================
 
 // отрисовка карточек из массива
-cardList(initialCards).renderItems();
+cardPost.renderItems(initialCards);
 
 //Генерация карточек из попапа================================================================================================================================================
 const verifiableForm = new FormValidator(dataNamingConfiuration, popupPosts);
 
 verifiableForm.enableValidation();
-
-const openAddCards = new Popup(namingСonfigurator.popupPosts);
 
 const popupSubmitCard = new PopupWithForm(
   namingСonfigurator.popupPosts,
@@ -87,7 +99,8 @@ const popupSubmitCard = new PopupWithForm(
   (data) => {
     const elemMassive = [data];
 
-    cardList(elemMassive).renderItems();
+    // cardList(elemMassive).renderItems();
+    cardPost.renderItems(elemMassive);
   }
 );
 
@@ -96,7 +109,7 @@ popupSubmitCard.setEventListeners();
 function openAddCard() {
   verifiableForm.clearingErrorFields();
 
-  openAddCards.open();
+  popupSubmitCard.open();
 }
 
 openPopupButtonPost.addEventListener("click", openAddCard);
@@ -120,8 +133,6 @@ verifiableFormProfile.enableValidation();
 
 popupSubmit.setEventListeners();
 
-const openProfilePopups = new Popup(namingСonfigurator.popupProfile);
-
 function openProfilePopup() {
   verifiableFormProfile.clearingErrorFields();
 
@@ -131,7 +142,7 @@ function openProfilePopup() {
     popupSubmit.form.elements[key].value = data[key];
   }
 
-  openProfilePopups.open();
+  popupSubmit.open();
 }
 
 openPopupButton.addEventListener("click", openProfilePopup); // открытие попапов с вводом имени и работы
