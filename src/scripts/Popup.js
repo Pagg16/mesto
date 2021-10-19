@@ -4,7 +4,7 @@ export class Popup {
     this._openPopupClass = "popup_opened";
     this._popupButtonClose = "popup__button-close";
     this._popup = 'popup';
-    this._setEventListeners = this.setEventListeners.bind(this);
+    this._setEventListeners = this.setEventListenerrs.bind(this);
     this._closeHandle = this._handleEscClose.bind(this);
   }
 
@@ -31,7 +31,7 @@ export class Popup {
     }
   }
 
-  setEventListeners() {
+  setEventListenerrs() {
     this._PopupSelector.addEventListener('click', (evt) => {
     if (
       evt.target.classList.contains(this._popup) ||

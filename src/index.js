@@ -42,17 +42,25 @@ const userInfo = new UserInfo({
 });
 
 //Функция генерации карточек================================================================================================================================================
-  const cardPost = new Section(
-     function (item) {
+  const cardPost = new Section({
+    items: initialCards,
+    renderer: function (item) {
 
-        const card = createCard(item);
+      renderCard(item);
 
-        const cardElement = card.generateCard();
-
-        cardPost.addItem(cardElement);
+      }
     },
     namingСonfigurator.postsElement
   );
+
+ function renderCard(item) {
+
+  const card = createCard(item);
+
+  const cardElement = card.generateCard();
+
+  cardPost.addItem(cardElement);
+ }
 
 
 const createCard = (data) => {
@@ -66,7 +74,7 @@ const createCard = (data) => {
 //===============================================================================================================================================
 
 // отрисовка карточек из массива
-cardPost.renderItems(initialCards);
+cardPost.renderItems();
 
 //Генерация карточек из попапа================================================================================================================================================
 const verifiableForm = new FormValidator(dataNamingConfiuration, popupPosts);
@@ -77,13 +85,11 @@ const popupSubmitCard = new PopupWithForm(
   namingСonfigurator.popupPosts,
 
   (data) => {
-    const elemMassive = [data];
-    
-    cardPost.renderItems(elemMassive);
+    renderCard(data);
   }
 );
 
-popupSubmitCard.setEventListeners();
+ popupSubmitCard.setEventListeners();
 
 function openAddCard() {
   verifiableForm.clearingErrorFields();

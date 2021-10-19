@@ -129,7 +129,7 @@ export class FormValidator {
       this._inputSelector
     );
 
-    const formReset = this._formElement.querySelector(this._formSelector);
+    // const formReset = this._formElement.querySelector(this._formSelector);
 
     inputElement.forEach((data) => {
       data.classList.remove(this._inputErrorClass); // удаляем подчеркивание краным цветом у двх элементов инпут
@@ -137,7 +137,7 @@ export class FormValidator {
         .querySelector(`.${data.id}-error`)
         .classList.remove(this._errorClass); //скрываем ошибку
     });
-    formReset.reset();
+    // formReset.reset();
 
     buttonElement.classList.add(this._inactiveButtonClass);
     buttonElement.setAttribute("disabled", true); //отключаем кнопку после отправки формы

@@ -27,7 +27,6 @@ export class PopupWithForm extends Popup {
       this._callback(this._getInputValues()); //function (this._getInputValues()){ содержимое для обработки forminfo }
       this.close();
     }); // отправка формы
-    super.setEventListeners();
   }
 
   close() {
