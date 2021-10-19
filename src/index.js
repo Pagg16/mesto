@@ -6,8 +6,6 @@ import { FormValidator } from "./scripts/FormValidator.js"; //импортиру
 
 import { Section } from "./scripts/Section.js";
 
-import { Popup } from "./scripts/Popup.js";
-
 import { PopupWithImage } from "./scripts/PopupWithImage.js";
 
 import { PopupWithForm } from "./scripts/PopupWithForm.js";
@@ -44,24 +42,6 @@ const userInfo = new UserInfo({
 });
 
 //Функция генерации карточек================================================================================================================================================
-// const cardList = (items) => {
-//   const cardPost = new Section(
-//     {
-//       items: items,
-//       renderer: function (item) {
-//         const card = createCard(item);
-
-//         const cardElement = card.generateCard();
-
-//         cardPost.addItem(cardElement);
-//       },
-//     },
-//     namingСonfigurator.postsElement
-//   );
-
-//   return cardPost;
-// };
-
   const cardPost = new Section(
      function (item) {
 
