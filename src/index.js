@@ -78,8 +78,7 @@ const popupSubmitCard = new PopupWithForm(
 
   (data) => {
     const elemMassive = [data];
-
-    // cardList(elemMassive).renderItems();
+    
     cardPost.renderItems(elemMassive);
   }
 );
