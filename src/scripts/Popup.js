@@ -4,7 +4,6 @@ export class Popup {
     this._openPopupClass = "popup_opened";
     this._popupButtonClose = "popup__button-close";
     this._popup = 'popup';
-    this._setEventListeners = this.setEventListeners.bind(this);
     this._closeHandle = this._handleEscClose.bind(this);
   }
 
@@ -18,8 +17,6 @@ export class Popup {
     this._PopupSelector.classList.remove(this._openPopupClass); //удаляем класс открытия попапа
 
     document.removeEventListener("keydown", this._closeHandle);
-
-    this._PopupSelector.removeEventListener("mousedown", this._setEventListeners);
   }
 
   _handleEscClose(evt) {

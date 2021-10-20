@@ -89,7 +89,7 @@ const popupSubmitCard = new PopupWithForm(
   }
 );
 
- popupSubmitCard.setEventListeners();
+popupSubmitCard.setEventListeners();
 
 function openAddCard() {
   verifiableForm.clearingErrorFields();
