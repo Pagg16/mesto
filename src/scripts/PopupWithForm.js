@@ -8,7 +8,6 @@ export class PopupWithForm extends Popup {
     this.form = this._PopupSelector.querySelector(".popup__form");
 
     this._inputData = this.form.querySelectorAll(".popup__filed");
-
   }
 
   _getInputValues() {
@@ -25,7 +24,6 @@ export class PopupWithForm extends Popup {
     this.form.addEventListener("submit", (evt) => {
       evt.preventDefault();
       this._callback(this._getInputValues()); //function (this._getInputValues()){ содержимое для обработки forminfo }
-      this.close();
     }); // отправка формы
     super.setEventListeners();
   }

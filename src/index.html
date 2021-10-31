@@ -20,16 +20,23 @@
 
         <section class="profile">
 
-            <img alt="аватарка" class="profile__avatar" src="<%=require('./images/profile-image.png')%>">
+            <div class="profile__blackout">
+
+                <img alt="аватарка" class="profile__avatar" src="#">
+
+                <div class="profile__avatar-edit"></div>
+
+            </div>
+
 
             <div class="profile-info">
 
                 <div class="profile-info__title-button">
-                    <h1 class="profile-info__title">Жак-Ив Кусто</h1>
+                    <h1 class="profile-info__title">Ошибка загрузки</h1>
                     <button aria-label="edit" type="button" class="button button_type_edit"></button>
                 </div>
 
-                <p class="profile-info__subtitle">Исследователь океана</p>
+                <p class="profile-info__subtitle">Ошибка загрузки</p>
 
             </div>
 
@@ -104,6 +111,49 @@
 
     </div>
 
+    <div class="popup avatar-edit">
+
+        <div class="popup__container popup__container_profile-edit">
+
+            <h2 class="popup__text">Обновить аватар</h2>
+
+            <form class="popup__form avatar-edit" name="userdata" novalidate>
+
+                <input type="url" id="avatar-edit" name="edit" placeholder="Ссылка на картинку" class="popup__filed"
+                    autocomplete="off" required>
+
+                <span class="error avatar-edit-error"></span>
+
+                <button type="submit"
+                    class="popup__submit-button popup__submit-button_edit popup__submit-button_hover">Сохранить</button>
+
+            </form>
+
+            <button aria-label="Close" type="button" class="popup__button-close"></button>
+
+        </div>
+
+    </div>
+
+    <div class="popup delete-confirmation">
+
+        <div class="popup__container popup__container_delete-confirmation">
+
+            <h2 class="popup__text">Вы уверены?</h2>
+
+            <div class="popup__form" name="userdata">
+
+                <button type="submit"
+                    class="popup__submit-button popup__submit-button_delete-confirmation popup__submit-button_hover">Да</button>
+
+            </div>
+
+            <button aria-label="Close" type="button" class="popup__button-close"></button>
+
+        </div>
+
+    </div>
+
     <div class="popup popup-images">
 
         <div class="popup__image-container">
@@ -131,7 +181,13 @@
 
                 <h2 class="rectangle__text"></h2>
 
-                <button type="button" class="rectangle__button-like"></button>
+                <div class="rectangle__like-box">
+
+                    <button type="button" class="rectangle__button-like"></button>
+
+                    <p class="rectangle__like-number"></p>
+
+                </div>
 
             </div>
 
