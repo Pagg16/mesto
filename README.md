@@ -13,3 +13,5 @@
 
 [Сайт](https://pagg16.github.io/mesto/) создан при помощи flexbox, GridLayout, Js, БЭМ, а также адаптивной верстки и ООП.
 
+Проект был собран при помощи Webpack.
+
