@@ -10,11 +10,9 @@ import { PopupWithImage } from "./scripts/PopupWithImage.js";
 
 import { PopupWithForm } from "./scripts/PopupWithForm.js";
 
-import { Popup } from "./scripts/Popup.js";
+import { PopupDeleting } from "./scripts/PopupDeleting.js";
 
 import { UserInfo } from "./scripts/UserInfo.js";
-
-import { popupdelete } from "./utils/constans.js";
 
 import {
   dataNamingConfiuration,
@@ -49,14 +47,19 @@ const api = new Api({
   },
 });
 
-//Загрузка имени и рода деятельности с сервера========================================================
-const userLink = api.getinfouser();
+//Загрузка имени и рода деятельности + карточки с сервера========================================================
+let IdUser;
 
-userLink.then((data) => {
-  userInfo.setUserInfo({ name: data.name, job: data.about });
-  userInfo.setUserAvatar({ avatarUser: data.avatar });
-});
-//========================================================================
+Promise.all([api.getinfouser(), api.getInitialCards()])
+  .then(([infoUser, initalCards]) => {
+    IdUser = infoUser._id;
+    userInfo.setUserInfo({ name: infoUser.name, job: infoUser.about });
+    userInfo.setUserAvatar({ avatarUser: infoUser.avatar });
+    cardPost.renderItems(initalCards);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 //Функция открытия попапа с картинкой вместе с созданием каточки с попапом===================================================================================================================================================
 const openImage = new PopupWithImage(namingСonfigurator.popupImage); //popop-image
@@ -84,34 +87,88 @@ function renderCard(item) {
 }
 
 const createCard = (data) => {
-  return new Card(
+  const card = new Card(
     data,
     namingСonfigurator.postElement,
     handleImageClick,
     dataNamingClass,
-    api,
-    userLink,
-    function (data) {
-      popupdelete.addEventListener("mousedown", popupDelite);
-      popup.open();
-      function popupDelite() {
-        data();
-        popup.close();
-        popupdelete.removeEventListener("mousedown", popupDelite);
-      }
+    function (linkfunction) {
+      popupDeleting.open(linkfunction);
     },
-    textContentChange,
-    buttonDeliteСonfirmation
+    installLike,
+    likeNumber,
+    needBasketLink,
+    function () {
+      textContentChange(buttonDeliteСonfirmation, "Удаление...");
+      api
+        .cardDelLink(card._id)
+        .then(() => {
+          card.removePost();
+          popupDeleting.close();
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          textContentChange(buttonDeliteСonfirmation, "Да");
+        });
+    }
   );
+
+  return card;
 };
 //=======================================================================================================
 
-//Функция генерации карточек с сервера================================================================================================================================================
-const cardLink = api.getInitialCards();
+//Лайки========================================================================================
+function installLike(event, id, element) {
+  //установка лайка и снятие
+  if (
+    !event.target.classList.contains(dataNamingClass.rectangleButtonLikeActive)
+  ) {
+    api
+      .cardLikeLink(id)
+      .then((data) => {
+        element.querySelector(dataNamingClass.numberLike).textContent =
+          data.likes.length;
+        event.target.classList.add(dataNamingClass.rectangleButtonLikeActive); //окрашиваем сердечко в черный цвет при помощи дополнительного класса
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  } else {
+    api
+      .cardDelLikeLink(id)
+      .then((data) => {
+        element.querySelector(dataNamingClass.numberLike).textContent =
+          data.likes.length;
+        event.target.classList.remove(
+          dataNamingClass.rectangleButtonLikeActive
+        ); //окрашиваем сердечко в черный цвет при помощи дополнительного класса
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+}
 
-cardLink.then((data) => {
-  cardPost.renderItems(data);
-});
+function likeNumber(likeOwner, element) {
+  likeOwner.forEach((id) => {
+    if (id._id === IdUser) {
+      element
+        .querySelector(dataNamingClass.rectangleButtonLike)
+        .classList.add(dataNamingClass.rectangleButtonLikeActive);
+    }
+  });
+}
+
+function needBasketLink(mycardId, element) {
+  if (IdUser === mycardId) {
+    element
+      .querySelector(dataNamingClass.buttonDelitePost)
+      .classList.add(dataNamingClass.activeButtonClass);
+  }
+}
+//============================================================================================================
 
 //Генерация карточек из попапа================================================================================================================================================
 
@@ -123,15 +180,18 @@ const popupSubmitCard = new PopupWithForm(
   namingСonfigurator.popupPosts,
 
   (data) => {
-    textContentChange(buttonCardCreation);
+    textContentChange(buttonCardCreation, "Сохранение...");
     api
       .sendingCardServer(data)
       .then((card) => {
         renderCard(card);
+        popupSubmitCard.close();
+      })
+      .catch((err) => {
+        console.log(err);
       })
       .finally(() => {
-        textContentChange(buttonCardCreation);
-        popupSubmitCard.close();
+        textContentChange(buttonCardCreation, "Создание");
       });
   }
 );
@@ -151,15 +211,18 @@ openPopupButtonPost.addEventListener("click", openAddCard);
 const popupSubmit = new PopupWithForm(
   namingСonfigurator.popupProfile,
   function (data) {
-    textContentChange(buttonProfileInfo);
+    textContentChange(buttonProfileInfo, "Сохранение...");
     api
       .getinfouserDispatch(data)
       .then(() => {
         userInfo.setUserInfo(data);
+        popupSubmit.close();
+      })
+      .catch((err) => {
+        console.log(err);
       })
       .finally(() => {
-        textContentChange(buttonProfileInfo);
-        popupSubmit.close();
+        textContentChange(buttonProfileInfo, "Сохранить");
       });
   }
 );
@@ -192,15 +255,18 @@ openPopupButton.addEventListener("click", openProfilePopup); // открытие
 const popupOpenEditProfile = new PopupWithForm(
   namingСonfigurator.popupProfileEdit,
   function (data) {
-    textContentChange(buttonProfileAvatar);
+    textContentChange(buttonProfileAvatar, "Сохранение...");
     api
       .dispatchAvatarUser(data)
       .then(() => {
         userInfo.setUserAvatar({ avatarUser: data.edit });
+        popupOpenEditProfile.close();
+      })
+      .catch((err) => {
+        console.log(err);
       })
       .finally(() => {
-        textContentChange(buttonProfileAvatar);
-        popupOpenEditProfile.close();
+        textContentChange(buttonProfileAvatar, "Сохранить");
       });
   }
 );
@@ -224,32 +290,18 @@ profileEdit.addEventListener("mousedown", openPopupEditProfile);
 
 //Создание попапа подтверждения удаления карточки==================================================================
 
-const popup = new Popup(namingСonfigurator.deleteConfirmation);
+const popupDeleting = new PopupDeleting(
+  namingСonfigurator.deleteConfirmation,
+  buttonDeliteСonfirmation
+);
 
-popup.setEventListeners();
+popupDeleting.setEventListeners();
 
 //=================================================================================================================
 
 //Функция изменения текст контента кнопок во время связи с сервером=================================================
 
-let textDefault;
-
-function textContentChange(button) {
-  if (button.textContent === "Да") {
-    if (button.textContent === "Удаление...") {
-      button.textContent = textDefault;
-    } else {
-      textDefault = button.textContent;
-      button.textContent = "Удаление...";
-    }
-  } else {
-    if (button.textContent === "Сохранение...") {
-      button.textContent = textDefault;
-    } else {
-      textDefault = button.textContent;
-      button.textContent = "Сохранение...";
-    }
-  }
+function textContentChange(button, text) {
+  button.textContent = text;
 }
-
 //===================================================================================================================

@@ -107,8 +107,6 @@ export const popupEdit = document.querySelector(".avatar-edit");//перемен
 
 export const profileEdit = document.querySelector(".profile__blackout");// иконка по нажатию на которую открывается попап редактирования картинки 
 
-export const popupdelete = document.querySelector(".popup__submit-button_delete-confirmation");
-
 export const buttonProfileAvatar = document.querySelector('.popup__submit-button_edit');
 
 export const buttonProfileInfo = document.querySelector('.popup__submit-button');

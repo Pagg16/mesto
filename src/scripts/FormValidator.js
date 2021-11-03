@@ -21,6 +21,14 @@ export class FormValidator {
     this._buttonElement = this._formElement.querySelector(
       this._submitButtonSelector
     );
+
+     this._buttonElement = this._formElement.querySelector(
+      this._submitButtonSelector
+    );
+
+    this._inputElement = this._formElement.querySelectorAll(
+      this._inputSelector
+    );
   }
 
   // Функция принимает массив полей
@@ -120,18 +128,11 @@ export class FormValidator {
   };
 
   clearingErrorFields() {
-    const buttonElement = this._formElement.querySelector(
-      this._submitButtonSelector
-    );
     // очищаем форму при услови, что это не попап с картинкой
     // функция очистки ошибок в форме, если пользователь ввел данные и нажал крестик,а потом опять открыл попап с формой
-    const inputElement = this._formElement.querySelectorAll(
-      this._inputSelector
-    );
-
     // const formReset = this._formElement.querySelector(this._formSelector);
 
-    inputElement.forEach((data) => {
+    this._inputElement.forEach((data) => {
       data.classList.remove(this._inputErrorClass); // удаляем подчеркивание краным цветом у двх элементов инпут
       this._formElement
         .querySelector(`.${data.id}-error`)
@@ -139,8 +140,8 @@ export class FormValidator {
     });
     // formReset.reset();
 
-    buttonElement.classList.add(this._inactiveButtonClass);
-    buttonElement.setAttribute("disabled", true); //отключаем кнопку после отправки формы
-    buttonElement.classList.remove(this._popupSubmitButtonHover); //удаляем активацию при наведении у кнопки
+    this._buttonElement.classList.add(this._inactiveButtonClass);
+    this._buttonElement.setAttribute("disabled", true); //отключаем кнопку после отправки формы
+    this._buttonElement.classList.remove(this._popupSubmitButtonHover); //удаляем активацию при наведении у кнопки
   }
 }

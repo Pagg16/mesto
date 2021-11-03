@@ -10,10 +10,7 @@ export class Api {
       method: "GET",
       headers: this._headers,
     }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
+      return this._responseFromServer(res);
     });
   }
 
@@ -23,10 +20,7 @@ export class Api {
       headers: this._headers,
       body: JSON.stringify(data),
     }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
+      return this._responseFromServer(res);
     });
   }
 
@@ -35,10 +29,7 @@ export class Api {
       method: "PUT",
       headers: this._headers,
     }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
+      return this._responseFromServer(res);
     });
   }
 
@@ -47,10 +38,7 @@ export class Api {
       method: "DELETE",
       headers: this._headers,
     }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
+      return this._responseFromServer(res);
     });
   }
 
@@ -59,10 +47,7 @@ export class Api {
       method: "DELETE",
       headers: this._headers,
     }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
+      return this._responseFromServer(res);
     });
   }
 
@@ -72,10 +57,7 @@ export class Api {
       method: "GET",
       headers: this._headers,
     }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
+      return this._responseFromServer(res);
     });
   }
 
@@ -88,10 +70,7 @@ export class Api {
         about: data.job,
       }),
     }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
+      return this._responseFromServer(res);
     });
   }
 
@@ -103,11 +82,17 @@ export class Api {
         avatar: data.edit,
       }),
     }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
+      return this._responseFromServer(res);
     });
   }
   //============================================================================================================
+
+  //Функция обработки ответа от сервера
+
+  _responseFromServer(res) {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Ошибка: ${res.status}`);
+  }
 }
