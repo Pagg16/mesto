@@ -21,14 +21,6 @@ export class FormValidator {
     this._buttonElement = this._formElement.querySelector(
       this._submitButtonSelector
     );
-
-     this._buttonElement = this._formElement.querySelector(
-      this._submitButtonSelector
-    );
-
-    this._inputElement = this._formElement.querySelectorAll(
-      this._inputSelector
-    );
   }
 
   // Функция принимает массив полей
@@ -132,7 +124,7 @@ export class FormValidator {
     // функция очистки ошибок в форме, если пользователь ввел данные и нажал крестик,а потом опять открыл попап с формой
     // const formReset = this._formElement.querySelector(this._formSelector);
 
-    this._inputElement.forEach((data) => {
+    this._inputList.forEach((data) => {
       data.classList.remove(this._inputErrorClass); // удаляем подчеркивание краным цветом у двх элементов инпут
       this._formElement
         .querySelector(`.${data.id}-error`)

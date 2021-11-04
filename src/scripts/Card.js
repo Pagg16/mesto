@@ -6,9 +6,8 @@ export class Card {
     dataNamingClass,
     openCardDelLink,
     installLike,
-    likeNumber,
-    needBasketLink,
-    delFunction
+    delFunction,
+    idUser
   ) {
     this._name = data.name;
     this._link = data.link;
@@ -18,7 +17,7 @@ export class Card {
     this._mycardId = data.owner._id;
     this._handleImageClick = handleImageClick;
 
-    this._likenNmber = data.likes.length;
+    this._likenNmbers = data.likes.length;
     this._likeOwner = data.likes;
     this._postElement = dataNamingClass.postElement;
     this._buttonDelitePost = dataNamingClass.buttonDelitePost;
@@ -27,12 +26,14 @@ export class Card {
     this._elementImage = dataNamingClass.elementImage;
     this._rectangleText = dataNamingClass.rectangleText;
     this._numberLikeClass = dataNamingClass.numberLike;
+    this._rectangleButtonLikeActive = dataNamingClass.rectangleButtonLikeActive;
+    this._activeButtonClass = dataNamingClass.activeButtonClass;
+
+    this._idUser = idUser;
 
     this._openCardDelLink = openCardDelLink;
     this._installLike = installLike;
 
-    this._likeNumber = likeNumber;
-    this._needBasketLink = needBasketLink;
     this._delFunction = delFunction;
   }
 
@@ -50,13 +51,29 @@ export class Card {
     this._element = null;
   };
 
+  addLike(data, element, event, numberLike, rectangleButtonLikeActive) {
+    element.querySelector(numberLike).textContent = data.likes.length;
+    event.target.classList.add(rectangleButtonLikeActive); //окрашиваем сердечко в черный цвет при помощи дополнительного класса
+  }
+
+  removeLike(data, element, event, numberLike, rectangleButtonLikeActive) {
+    element.querySelector(numberLike).textContent = data.likes.length;
+    event.target.classList.remove(rectangleButtonLikeActive); //удаляем окрашивание
+  }
+
   _setEventListeners() {
     this._needBasket();
 
     this._element
       .querySelector(this._rectangleButtonLike)
       .addEventListener("click", (event) => {
-        this._installLike(event, this._id, this._element);
+        this._installLike(
+          event,
+          this._id,
+          this._element,
+          this.addLike,
+          this.removeLike
+        );
       });
 
     this._element
@@ -67,7 +84,11 @@ export class Card {
   }
 
   _needBasket() {
-    this._needBasketLink(this._mycardId, this._element);
+    if (this._idUser === this._mycardId) {
+      this._element
+        .querySelector(this._buttonDelitePost)
+        .classList.add(this._activeButtonClass);
+    }
 
     if (this._element.querySelector(this._rectangleButtonLike)) {
       this._element
@@ -78,6 +99,16 @@ export class Card {
     }
   }
 
+  _likeNumber() {
+    this._likeOwner.forEach((id) => {
+      if (id._id === this._idUser) {
+        this._element
+          .querySelector(this._rectangleButtonLike)
+          .classList.add(this._rectangleButtonLikeActive);
+      }
+    });
+  }
+
   generateCard() {
     //собираем карточку с картинкой
     this._element = this._getTemplate();
@@ -86,9 +117,9 @@ export class Card {
     this._element.querySelector(this._elementImage).alt = this._name;
     this._element.querySelector(this._rectangleText).textContent = this._name;
     this._element.querySelector(this._numberLikeClass).textContent =
-      this._likenNmber;
+      this._likenNmbers;
 
-    this._likeNumber(this._likeOwner, this._element);
+    this._likeNumber();
 
     this._setEventListeners();
 

@@ -48,11 +48,11 @@ const api = new Api({
 });
 
 //Загрузка имени и рода деятельности + карточки с сервера========================================================
-let IdUser;
+let idUser;
 
 Promise.all([api.getinfouser(), api.getInitialCards()])
   .then(([infoUser, initalCards]) => {
-    IdUser = infoUser._id;
+    idUser = infoUser._id;
     userInfo.setUserInfo({ name: infoUser.name, job: infoUser.about });
     userInfo.setUserAvatar({ avatarUser: infoUser.avatar });
     cardPost.renderItems(initalCards);
@@ -96,8 +96,6 @@ const createCard = (data) => {
       popupDeleting.open(linkfunction);
     },
     installLike,
-    likeNumber,
-    needBasketLink,
     function () {
       textContentChange(buttonDeliteСonfirmation, "Удаление...");
       api
@@ -112,7 +110,8 @@ const createCard = (data) => {
         .finally(() => {
           textContentChange(buttonDeliteСonfirmation, "Да");
         });
-    }
+    },
+    idUser
   );
 
   return card;
@@ -120,7 +119,7 @@ const createCard = (data) => {
 //=======================================================================================================
 
 //Лайки========================================================================================
-function installLike(event, id, element) {
+function installLike(event, id, element, addLike, removeLike) {
   //установка лайка и снятие
   if (
     !event.target.classList.contains(dataNamingClass.rectangleButtonLikeActive)
@@ -128,9 +127,13 @@ function installLike(event, id, element) {
     api
       .cardLikeLink(id)
       .then((data) => {
-        element.querySelector(dataNamingClass.numberLike).textContent =
-          data.likes.length;
-        event.target.classList.add(dataNamingClass.rectangleButtonLikeActive); //окрашиваем сердечко в черный цвет при помощи дополнительного класса
+        addLike(
+          data,
+          element,
+          event,
+          dataNamingClass.numberLike,
+          dataNamingClass.rectangleButtonLikeActive
+        );
       })
       .catch((err) => {
         console.log(err);
@@ -139,33 +142,17 @@ function installLike(event, id, element) {
     api
       .cardDelLikeLink(id)
       .then((data) => {
-        element.querySelector(dataNamingClass.numberLike).textContent =
-          data.likes.length;
-        event.target.classList.remove(
+        removeLike(
+          data,
+          element,
+          event,
+          dataNamingClass.numberLike,
           dataNamingClass.rectangleButtonLikeActive
-        ); //окрашиваем сердечко в черный цвет при помощи дополнительного класса
+        );
       })
       .catch((err) => {
         console.log(err);
       });
-  }
-}
-
-function likeNumber(likeOwner, element) {
-  likeOwner.forEach((id) => {
-    if (id._id === IdUser) {
-      element
-        .querySelector(dataNamingClass.rectangleButtonLike)
-        .classList.add(dataNamingClass.rectangleButtonLikeActive);
-    }
-  });
-}
-
-function needBasketLink(mycardId, element) {
-  if (IdUser === mycardId) {
-    element
-      .querySelector(dataNamingClass.buttonDelitePost)
-      .classList.add(dataNamingClass.activeButtonClass);
   }
 }
 //============================================================================================================
